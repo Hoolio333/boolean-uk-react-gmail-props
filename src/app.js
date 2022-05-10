@@ -6,6 +6,7 @@ import "./styles/app.css";
 
 import Email from "./Email";
 import Emails from "./Emails";
+import EmailDetail from "./EmailDetail";
 
 const getReadEmails = (emails) => emails.filter((email) => !email.read);
 
@@ -18,6 +19,8 @@ function App() {
 
   const unreadEmails = emails.filter((email) => !email.read);
   const starredEmails = emails.filter((email) => email.starred);
+
+  const [showEmail, setShowEmail] = useState(false);
 
   const toggleStar = (targetEmail) => {
     const updatedEmails = (emails) =>
@@ -91,23 +94,19 @@ function App() {
         </ul>
       </nav>
       <main className="emails">
-        <Emails
-          filteredEmails={filteredEmails}
-          toggleRead={toggleRead}
-          toggleStar={toggleStar}
-        />
+        {!showEmail ? (
+          <Emails
+            filteredEmails={filteredEmails}
+            toggleRead={toggleRead}
+            toggleStar={toggleStar}
+            setShowEmail={setShowEmail}
+          />
+        ) : (
+          <EmailDetail email={showEmail} setShowEmail={setShowEmail} />
+        )}
       </main>
     </div>
   );
 }
 
 export default App;
-
-// {filteredEmails.map((email, index) => (
-//   <Email
-//     key={index}
-//     email={email}
-//     toggleRead={toggleRead}
-//     toggleStar={toggleStar}
-//   />
-// ))}
